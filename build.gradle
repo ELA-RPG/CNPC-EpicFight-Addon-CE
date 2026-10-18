@@ -36,9 +36,9 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'official', version: '1.20.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
+
     // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
-	// accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     sourceSets.main.java.srcDirs += 'src/api/java'
     // Default run configurations.
@@ -151,10 +151,10 @@ dependencies {
     implementation fg.deobf('lib:epic-fight:20.14.17-mc1.20.1-forge')
     implementation fg.deobf('lib:indestructible:20.12.0')
     compileOnly fg.deobf('lib:curios-forge:5.14.1+1.20.1')
-    compileOnly fg.deobf('lib:YSM_EpicFight_Compat:1.20.1-1.8.0-all')
-    compileOnly fg.deobf('lib:epic-knights:1.20.1-forge-10.11')
-    compileOnly fg.deobf('lib:fantasy_armor:1.2.4-1.20.1')
-    compileOnly fg.deobf('lib:CombatEvolution:2.2.6')
+    compileOnly fg.deobf('lib:ysm-epicfight-compat:mc1.20.1-1.0.0-all')
+    compileOnly fg.deobf('lib:epic-knights:1.20.1-forge-10.15')
+    compileOnly fg.deobf('lib:fantasy_armor:forge-1.2.4-1.20.1')
+    compileOnly fg.deobf('lib:CombatEvolution:2.3.1-Forge-1.20.1')
 //    implementation fg.deobf('lib:indestructible:20.6.7')
     //compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     //extraLibs group: 'com.h2database', name: 'h2', version: '1.4.200'
@@ -187,14 +187,14 @@ jar {
 
     manifest {
         attributes([
-            "Specification-Title": "cnpcefaddon",
-            "Specification-Vendor": "cnpcefaddon",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": project.version,
-            "Implementation-Vendor" :"cnpcefaddon",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "cnpcefaddon.mixins.json"
+                "Specification-Title": "cnpcefaddon",
+                "Specification-Vendor": "cnpcefaddon",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor" :"cnpcefaddon",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "cnpcefaddon.mixins.json"
         ])
     }
 }
@@ -232,12 +232,12 @@ def assertNoBom = tasks.register('assertNoBom') {
         fileTree(sourceSets.main.output.resourcesDir)
                 .matching { include '**/*.json', '**/*.toml', '**/*.mcmeta' }
                 .each { f ->
-            def head = new byte[3]
-            f.withInputStream { it.read(head, 0, 3) }
-            if (head[0] == (byte) 0xEF && head[1] == (byte) 0xBB && head[2] == (byte) 0xBF) {
-                offenders << f.name
-            }
-        }
+                    def head = new byte[3]
+                    f.withInputStream { it.read(head, 0, 3) }
+                    if (head[0] == (byte) 0xEF && head[1] == (byte) 0xBB && head[2] == (byte) 0xBF) {
+                        offenders << f.name
+                    }
+                }
         if (offenders) {
             throw new GradleException("UTF-8 BOM found in packaged resource(s): ${offenders}. " +
                     "A BOM in a mixin config crashes the game on non-UTF-8 default charsets.")

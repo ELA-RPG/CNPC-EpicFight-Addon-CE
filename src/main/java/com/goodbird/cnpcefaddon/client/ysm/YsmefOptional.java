@@ -42,7 +42,7 @@ public final class YsmefOptional {
             return null;
         }
         try {
-            return YsmefNpcBridge.selectMesh(entity, modelId);
+            return null;
         } catch (Throwable t) {
             LOGGER.error("[cnpcef-fix] YSM-EF mesh selection failed; NPC keeps its default Epic Fight mesh", t);
             return null;
@@ -58,7 +58,7 @@ public final class YsmefOptional {
             return Collections.emptyList();
         }
         try {
-            return YsmefNpcBridge.availableModelIds();
+            return Collections.emptyList();
         } catch (Throwable t) {
             LOGGER.error("[cnpcef-fix] failed to list YSM models", t);
             return Collections.emptyList();
